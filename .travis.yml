@@ -15,6 +15,7 @@ before_install:
   - cd .. && mkdir frontend
   - cp -R fund-calc-frontend/dist frontend
   - docker build -t hansnow/fund-calc .
+  - docker run -d --name fund hansnow/fund-calc
   - docker ps -a
 
 script:
