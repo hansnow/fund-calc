@@ -4,27 +4,37 @@
 
 import requests as rq
 import re
-from provider.sina import get_fund
+from redis import Redis
+from provider.sina import get_fund as _get_fund
 
-_config = {
-    '210004': '34.58',
-    '000172': '26.25',
-    '420003': 31.62,
-    '040035': 18.02
-}
+cache = Redis(host='redis')
 
-__config = {
-    '000311': 265.67
-}
-
+def get_fund(fund_code):
+    if cache.exists(fund_code):
+        return float(cache.get(fund_code))
+    else:
+        now = _get_fund(fund_code)['now']
+        cache.set(fund_code, now, ex=60)
+        return now
 
 def get_sum_value(funds):
     ret = 0.0
     for fund_code in funds:
-        ret += float(funds[fund_code]) * get_fund(fund_code)['now']
+        ret += float(funds[fund_code]) * get_fund(fund_code)
     return ret
 
 def main():
+    _test = {
+        '210004': '34.58',
+        '000172': '26.25',
+        '420003': 31.62,
+        '040035': 18.02
+    }
+
+    __test = {
+        '000311': 265.67
+    }
+
     print(get_sum_value(_config))
     
 
