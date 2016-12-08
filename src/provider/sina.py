@@ -4,7 +4,8 @@
 # 
 # 实时数据获取API
 # http://app.xincai.com/fund/api/jsonp.json/<jsonp 变量名>/XinCaiFundService.getFundYuCeNav?symbol=<基金代码>
-
+from __future__ import print_function
+import sys
 import requests as rq
 import re
 
@@ -21,8 +22,10 @@ __config = {
 
 def get_fund(fund_code):
     r = rq.get('http://hq.sinajs.cn/list=fu_{}'.format(fund_code))
-    data = re.findall(r'"(.*?)"', r.text)[0].split(',')
-    if data:
+    data = re.findall(r'"(.*?)"', r.text)
+    if data[0] != '':
+        # print(data, file=sys.stderr)
+        data = data[0].split(',')
         return {
             "name": data[0],
             "value": float(data[3]),
