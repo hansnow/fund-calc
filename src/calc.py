@@ -9,7 +9,7 @@ from provider.sina import get_fund as _get_fund
 
 cache = Redis(host='redis')
 
-def get_fund(fund_code):
+def get_fund_value(fund_code):
     if cache.exists(fund_code):
         return float(cache.get(fund_code))
     else:
@@ -17,10 +17,17 @@ def get_fund(fund_code):
         cache.set(fund_code, now, ex=60)
         return now
 
+def get_fund_name(fund_code):
+    data = _get_fund(fund_code)
+    if data:
+        return data['name']
+    else:
+        return ''
+
 def get_sum_value(funds):
     ret = 0.0
     for fund_code in funds:
-        ret += float(funds[fund_code]) * get_fund(fund_code)
+        ret += float(funds[fund_code]) * get_fund_value(fund_code)
     return ret
 
 def main():
