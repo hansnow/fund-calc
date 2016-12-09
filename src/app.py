@@ -3,7 +3,7 @@
 from __future__ import print_function
 from flask import Flask, request
 from provider.sina import get_fund, get_fund_nav
-from calc import get_sum_value, get_fund_name, get_fund_nav
+from calc import get_sum_value, get_fund_name
 import json
 import sys
 app = Flask(__name__)
