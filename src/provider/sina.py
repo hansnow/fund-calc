@@ -4,6 +4,7 @@
 # 
 # 实时数据获取API
 # http://app.xincai.com/fund/api/jsonp.json/<jsonp 变量名>/XinCaiFundService.getFundYuCeNav?symbol=<基金代码>
+# TODO: 000123 not found
 from __future__ import print_function
 import sys
 import requests as rq
