@@ -34,6 +34,15 @@ def get_fund(fund_code):
     else:
         return None
 
+def get_fund_nav(fund_code):
+    r = rq.get('http://app.xincai.com/fund/api/jsonp.json//XinCaiFundService.getFundYuCeNav?symbol={}'.format(fund_code))
+    try:
+        raw_text = re.findall(r'detail:"(.*?)"', r.text)[0]
+        data = re.findall(r'\d\.\d{4}', raw_text)
+        return map(lambda x: float(x), data)
+    except:
+        return []
+
 def get_sum_value(funds):
     ret = 0.0
     for fund_code in funds:
