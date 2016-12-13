@@ -5,7 +5,7 @@
 from redis import Redis
 from cache import Cache
 
-cache = Cache(Redis(host='localhost'))
+cache = Cache(Redis(host='redis'))
 
 def get_fund_value(fund_code):
     return cache.get_fund_now(fund_code)
