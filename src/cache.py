@@ -4,7 +4,12 @@
 
 from redis import Redis
 import json
+from datetime import datetime
 from provider.sina import get_fund, get_fund_nav
+
+def is_market_open():
+    now = datetime.now()
+    return now.hour < 15 and (now.hour > 9 and now.minute > 30)
 
 class Cache(object):
     def __init__(self, redis):
@@ -57,5 +62,8 @@ class Cache(object):
             nav = get_fund_nav(code)
             value = self.get_fund_value(code)
             data = {'value': value, 'chartData': nav}
-            self.set('fund_nav', code, data, expire=60)
+            if is_market_open():
+                self.set('fund_nav', code, data, expire=60)
+            else:
+                self.set('fund_nav', code, data)
             return data
