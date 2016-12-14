@@ -62,8 +62,9 @@ class Cache(object):
             nav = get_fund_nav(code)
             value = self.get_fund_value(code)
             data = {'value': value, 'chartData': nav}
-            if is_market_open():
-                self.set('fund_nav', code, data, expire=60)
-            else:
-                self.set('fund_nav', code, data)
+            self.set('fund_nav', code, data, expire=60)
+            # if is_market_open():
+            #     self.set('fund_nav', code, data, expire=60)
+            # else:
+            #     self.set('fund_nav', code, data)
             return data
