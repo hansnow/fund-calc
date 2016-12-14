@@ -19,7 +19,7 @@ def get_fund_nav(fund_code):
 def get_sum_value(funds):
     ret = 0.0
     for fund_code in funds:
-        ret += float(funds[fund_code]) * cache.get_fund_value(fund_code)
+        ret += float(funds[fund_code]) * cache.get_fund_now(fund_code)
     return ret
 
 def main():
