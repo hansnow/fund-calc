@@ -17,10 +17,14 @@ def get_fund_nav(fund_code):
     return cache.get_fund_nav(fund_code)
 
 def get_sum_value(funds):
+    # 返回一个`今日预估净值(相比昨日涨跌)`格式的字符串
+    yes = 0.0
     ret = 0.0
     for fund_code in funds:
+        yes += float(funds[fund_code]) * cache.get_fund_value(fund_code)
+    for fund_code in funds:
         ret += float(funds[fund_code]) * cache.get_fund_now(fund_code)
-    return ret
+    return '{0:+.4f}'.format(ret - yes)
 
 def main():
     _test = {
