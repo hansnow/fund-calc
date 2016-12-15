@@ -24,7 +24,8 @@ def get_sum_value(funds):
         yes += float(funds[fund_code]) * cache.get_fund_value(fund_code)
     for fund_code in funds:
         ret += float(funds[fund_code]) * cache.get_fund_now(fund_code)
-    return '{0:+.4f}'.format(ret - yes)
+    compare = '{0:+.4f}'.format(ret - yes)
+    return '{}({})'.format(ret, compare)
 
 def main():
     _test = {
@@ -38,7 +39,7 @@ def main():
         '000311': 265.67
     }
 
-    print(get_sum_value(_config))
+    print(get_sum_value(_test))
     
 
 if __name__ == "__main__": main()
